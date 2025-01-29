@@ -1,0 +1,296 @@
+===============================Selection sort====================
+
+package com.demo.test;
+
+import java.util.Arrays;
+
+public class SelectionSort {
+	public static void main(String[] args) {
+		int[] arr = {12,24,5,56,7,76,8,89};
+		System.out.println("Before sorting");
+		System.out.println(Arrays.toString(arr));
+		selectionSort(arr);
+		System.out.println("After sorting");
+		System.out.println(Arrays.toString(arr));
+	}
+	public static void selectionSort(int[] arr) {
+		for(int i=0;i<arr.length-1;i++) {
+			int min_index=i;
+			for(int j=i+1;j<arr.length;j++) {
+				if(arr[j]<arr[min_index]) {
+					min_index=j;
+				}
+			}
+			int temp = arr[i];
+			arr[i]=arr[min_index];
+			arr[min_index]=temp;
+			
+		}
+	}
+
+}
+
+
+====================================BinarySearch=========================
+package com.demo.test;
+
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+public class BinarySearch {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		Integer[] arr = {1,2,5,6,7,2,5};
+		Stream.of(arr).forEach(System.out::println);
+		System.out.println("Enter number your want to search : ");
+		int num = sc.nextInt();
+		int pos = binarySearch(arr,0,arr.length-1,num);
+		if(pos!=-1) {
+			System.out.println("pos =:" +pos);
+		}else {
+			System.out.println("number not found");
+		}
+
+	}
+
+	private static int binarySearch(Integer[] arr, int low, int high, int num) {
+		int l=low;
+		int h=high;
+		if(l<=h) {
+			int mid = (l+h)/2;
+			if(arr[mid]==num) {
+				return mid;
+			}else if(arr[mid]>num) {
+				return binarySearch(arr,l,mid-1,num);
+			}else {
+				return binarySearch(arr,mid+1,h,num);
+			}
+		}
+		return -1;
+	}
+
+}
+
+========================BinarySearchTree======================================
+package com.demo;
+
+public class BinarySearchTree {
+
+	class Node{
+		Node left;
+		int data;
+		Node right;
+		public Node(int val) {
+			this.left=null;
+			this.data=val;
+			this.right = null;
+		}
+	}
+	Node root;
+	public BinarySearchTree() {
+		this.root = null;
+	}
+	public void insertValue(int val){
+		root = insertData(root,val);
+	}
+	private Node insertData(Node root,int val) {
+		if(root==null) {
+			Node newnode  = new Node(val);
+			root = newnode;
+			return root;
+		}
+		if(root.data>val) {
+			root.left = insertData(root.left,val);
+		}else {
+			root.right=insertData(root.right,val);
+		}
+		return root;
+
+	}
+	
+	public void inorder() {
+		inorderTraversal(root);
+	}
+	private void inorderTraversal(Node root) {
+		if(root!=null) {
+		inorderTraversal(root.left);
+		System.out.println(root.data);
+		inorderTraversal(root.right);	
+	}
+	}
+	public void preorder() {
+		preorderTraversal(root);
+	}
+	private void preorderTraversal(Node root) {
+		if(root!=null) {
+		System.out.println(root.data);
+		preorderTraversal(root.left);
+		preorderTraversal(root.right);
+	}
+	}
+	public void postorder() {
+		postorderTraversal(root);
+	}
+	private void postorderTraversal(Node root) {
+		if(root!=null) {
+		postorderTraversal(root.left);
+		postorderTraversal(root.right);
+		System.out.println(root.data);
+	}
+	}
+	public boolean binarySearch(int val) {
+		return binarySearchTarversal(root,val);
+	}
+	private boolean binarySearchTarversal(Node root,int val) {
+		if(root==null) {
+			return false;
+		}
+		if(root.data==val) {
+			return true;
+		}
+		if(val<root.data) {
+			return binarySearchTarversal(root.left,val);
+		}else {
+			return binarySearchTarversal(root.right,val);
+		}
+	}
+	
+}
+
+******************test**************************
+package com.demo;
+
+public class BinarySearchTest {
+
+	public static void main(String[] args) {
+	BinarySearchTree bst = new BinarySearchTree();
+	bst.insertValue(34);
+	bst.insertValue(56);
+	bst.insertValue(89);
+	bst.insertValue(32);
+	bst.inorder();
+	System.out.println("========================================");
+	bst.preorder();
+	System.out.println("========================================");
+	bst.postorder();
+	System.out.println("========================================");
+	if(bst.binarySearch(45)) {
+		System.out.println("data found");
+	}else {
+		System.out.println("no data found");
+	}
+	
+
+	}
+
+}
+=================================Queue using linkedlist=================
+
+package Linkedlistqueuq;
+
+class Node{
+	int data;
+	Node next;
+	public Node(int data) {
+		this.next=null;
+		this.data=data;
+	}
+}
+public class LinkedQueue {
+	private static Node front;
+	private static Node rear;
+	public LinkedQueue() {
+		this.front=null;
+		this.rear=null;
+	}
+	
+	public static boolean isEmpty() {
+		return front==null;
+	}
+	public void enqueue(int data) {
+		Node newNode = new Node(data);
+		if(rear==null) {
+			front=rear=newNode;
+			return;
+		}
+		rear.next = newNode;
+		rear = newNode;
+	}
+	public int dequeue() {
+		if(isEmpty()) {
+			System.out.println("List is empty");
+			return -1;
+		}
+		int result = front.data;
+		front = front.next;
+		if(front==null) {
+			rear=null;
+		}
+		return result;
+	}
+	public static int peek() {
+		if(isEmpty()) {
+			System.out.println("List is empty");
+			return -1;
+		}
+		int peekVal = front.data;
+		return peekVal;
+	}
+	public void display() {
+		if(isEmpty()) {
+			System.out.println("List is empty");
+			return;
+		}
+		Node current  = front;
+		while(current!=null) {
+			System.out.println(current.data);
+			current = current.next;
+		}
+		
+	}
+	public static void main(String[] args) {
+		LinkedQueue queue = new LinkedQueue();
+		queue.enqueue(89);
+		queue.enqueue(90);
+		queue.enqueue(45);
+		queue.enqueue(67);
+		queue.display();
+		System.out.println("==============================");
+		System.out.println(queue.dequeue());
+		System.out.println("==============================");
+		queue.display();
+		System.out.println("==============================");
+		System.out.println(queue.peek());
+		}
+}
+===================Stack using array reverse string=================
+package StackReversing;
+
+import java.util.Stack;
+
+public class ReverseString {
+	public static void main(String[] args) {
+		String[] arr = {"banana","apple","cherry","date"};
+		System.out.println("original array");
+		for(String str:arr) {
+			System.out.print(str+" ");
+		} 
+		System.out.println();
+		reverseString(arr);
+		System.out.println("after reversing");
+		for(String str:arr) {
+			System.out.print(str+" ");
+		} 
+	}
+	public static void reverseString(String[] arr) {
+		Stack<String> stack=new Stack<>();
+		for(String str:arr) {
+			stack.push(str);
+		}
+		int idx=0;
+		while(!stack.isEmpty()) {
+			arr[idx++]=stack.pop();		}
+	}
+
+}
